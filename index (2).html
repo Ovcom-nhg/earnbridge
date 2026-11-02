@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EarnBridge</title>
+<style>
+:root {
+  --site-primary: #173F35;
+  --site-on-primary: #FFFFFF;
+  --site-secondary: #DDF4B8;
+  --site-on-secondary: #173F35;
+  --site-background: #F5F7F2;
+  --site-on-background: #17251F;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --surface: light-dark(#FFFFFF, #1C2823);
+  --surface-soft: light-dark(#EDF2EA, #24342D);
+  --text-muted: light-dark(#66746B, #B3C0B7);
+  --line: light-dark(#E1E8DE, #35453C);
+  --positive: #24784F;
+  --warning: #A36A19;
+  color-scheme: light dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+button, input { font: inherit; }
+button { cursor: pointer; }
+.app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); border-radius: 0; overflow: hidden; }
+.container { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+.topbar { background: var(--site-primary); color: var(--site-on-primary); }
+.nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand { display: flex; align-items: center; gap: 11px; color: inherit; text-decoration: none; font-weight: 800; letter-spacing: -.04em; font-size: 21px; }
+.brand-mark { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 13px; background: var(--site-secondary); color: var(--site-on-secondary); }
+.brand-mark svg { width: 23px; height: 23px; }
+.nav-links { display: flex; align-items: center; gap: 27px; }
+.nav-links a { color: #E0EAE3; font-size: 13px; font-weight: 600; text-decoration: none; }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.btn { border: 0; border-radius: calc(13px * var(--site-radius-scale)); padding: calc(12px * var(--site-spacing-scale)) calc(17px * var(--site-spacing-scale)); font-weight: 750; font-size: 13px; transition: transform .18s, opacity .18s; }
+.btn:hover { transform: translateY(-1px); }
+.btn-primary { background: var(--site-secondary); color: var(--site-on-secondary); }
+.btn-outline { background: transparent; color: #FFFFFF; border: 1px solid #658278; }
+.btn-dark { background: var(--site-primary); color: #FFFFFF; }
+.btn-light { background: var(--surface-soft); color: var(--site-on-background); }
+.hero { background: var(--site-primary); color: #FFFFFF; position: relative; overflow: hidden; padding: 74px 0 82px; }
+.hero:after { content: ""; position: absolute; width: 470px; height: 470px; border: 1px solid rgba(221,244,184,.17); border-radius: 50%; right: -80px; top: -230px; box-shadow: 0 0 0 55px rgba(221,244,184,.035), 0 0 0 110px rgba(221,244,184,.025); opacity: var(--site-decoration-opacity); pointer-events: none; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 60px; position: relative; z-index: 1; }
+.eyebrow { display: inline-flex; align-items: center; gap: 8px; color: #DDF4B8; font-size: 11px; text-transform: uppercase; letter-spacing: .14em; font-weight: 800; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: #B8EB79; }
+h1,h2,h3,p { margin-top: 0; }
+h1 { font-family: var(--site-font-heading); font-size: calc(58px * var(--site-heading-scale)); letter-spacing: -.065em; line-height: 1.02; margin: 18px 0 20px; max-width: 620px; }
+.hero-copy { max-width: 510px; color: #D1DED5; line-height: 1.75; font-size: 15px; }
+.hero-buttons { display: flex; gap: 12px; align-items: center; margin-top: 28px; flex-wrap: wrap; }
+.trust-line { color: #B8C9BE; font-size: 11px; margin-top: 20px; }
+.mock-wrap { display: flex; justify-content: center; }
+.phone { width: min(100%, 340px); background: #F9FBF7; color: #17251F; border: 7px solid #34564A; border-radius: 31px; padding: 18px; box-shadow: 0 28px 75px rgba(0,0,0,.25); transform: rotate(2deg); }
+.phone-top { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #67766D; margin-bottom: 20px; }
+.phone-brand { font-weight: 850; color: #173F35; font-size: 13px; }
+.balance-card { border-radius: 18px; background: #173F35; color: white; padding: 18px; }
+.balance-card small { color: #C8D8CE; font-size: 10px; }
+.balance { font-size: 29px; letter-spacing: -.05em; font-weight: 800; margin: 8px 0 13px; }
+.balance-foot { display: flex; justify-content: space-between; color: #DDF4B8; font-size: 10px; }
+.phone-label { font-size: 11px; font-weight: 800; margin: 20px 0 10px; }
+.ref-box { display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px dashed #A6B9AA; background: #EEF4E9; border-radius: 12px; font-size: 10px; color: #315344; }
+.ref-box strong { color: #173F35; }
+.task-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid #E5EBE2; font-size: 10px; }
+.task-row:last-child { border: 0; }
+.task-icon { width: 29px; height: 29px; display: inline-grid; place-items: center; border-radius: 9px; background: #E5F2D7; margin-right: 8px; }
+.task-name { display: inline-flex; align-items: center; }
+.task-reward { color: #28744D; font-weight: 800; }
+.stats-strip { background: var(--surface); border-bottom: 1px solid var(--line); }
+.stats { display: grid; grid-template-columns: repeat(3,1fr); padding: 25px 0; }
+.stat { text-align: center; border-right: 1px solid var(--line); }
+.stat:last-child { border: 0; }
+.stat strong { display: block; font-size: 23px; letter-spacing: -.04em; }
+.stat span { font-size: 11px; color: var(--text-muted); }
+.section { padding: 76px 0; }
+.section-head { max-width: 610px; margin: 0 auto 38px; text-align: center; }
+.kicker { color: #568044; font-size: 11px; text-transform: uppercase; letter-spacing: .14em; font-weight: 850; }
+h2 { font-size: calc(36px * var(--site-heading-scale)); letter-spacing: -.055em; line-height: 1.1; margin: 12px 0; }
+.section-head p { color: var(--text-muted); line-height: 1.7; font-size: 14px; }
+.feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 17px; }
+.feature { background: var(--surface); border: 1px solid var(--line); border-radius: calc(20px * var(--site-radius-scale)); padding: 24px; }
+.feature-icon { width: 43px; height: 43px; display: grid; place-items: center; border-radius: 14px; background: var(--site-secondary); color: var(--site-on-secondary); font-size: 19px; margin-bottom: 20px; }
+.feature h3 { font-size: 16px; letter-spacing: -.02em; margin-bottom: 8px; }
+.feature p { color: var(--text-muted); font-size: 12px; line-height: 1.7; margin: 0; }
+.steps { background: var(--surface-soft); }
+.step-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.step { background: var(--surface); border: 1px solid var(--line); padding: 22px; border-radius: 17px; }
+.step-num { color: #54823F; font-size: 11px; font-weight: 900; letter-spacing: .1em; }
+.step h3 { font-size: 14px; margin: 13px 0 7px; }
+.step p { color: var(--text-muted); font-size: 11px; line-height: 1.65; margin: 0; }
+.cta { padding: 64px 0; }
+.cta-panel { background: var(--site-primary); color: white; padding: 42px; border-radius: 25px; display: flex; align-items: center; justify-content: space-between; gap: 25px; }
+.cta-panel h2 { max-width: 480px; margin: 0; }
+.cta-panel p { color: #C9D8CE; font-size: 12px; margin: 10px 0 0; }
+.footer { background: #102D27; color: #C8D7CE; padding: 28px 0; font-size: 11px; }
+.footer-inner { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+/* App preview */
+.dashboard { display: none; min-height: 100vh; background: var(--site-background); }
+.dashboard.active { display: block; }
+.landing.hidden { display: none; }
+.dash-nav { background: var(--site-primary); color: white; padding: 15px 0; }
+.dash-nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+.dash-layout { display: grid; grid-template-columns: 220px 1fr; gap: 28px; padding: 30px 0 60px; }
+.sidebar { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 17px; height: fit-content; }
+.sidebar-label { font-size: 9px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-muted); font-weight: 850; padding: 8px 10px; }
+.side-link { display: flex; align-items: center; gap: 10px; padding: 11px 10px; border-radius: 10px; color: var(--text-muted); font-size: 12px; font-weight: 700; cursor: pointer; }
+.side-link.active, .side-link:hover { background: var(--surface-soft); color: var(--site-primary); }
+.dash-main h1 { font-size: 32px; color: var(--site-on-background); margin: 0 0 7px; letter-spacing: -.05em; }
+.dash-sub { color: var(--text-muted); font-size: 12px; margin-bottom: 23px; }
+.dash-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 13px; margin-bottom: 18px; }
+.dash-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+.dash-card span { color: var(--text-muted); font-size: 10px; }
+.dash-card strong { display: block; font-size: 23px; margin-top: 8px; letter-spacing: -.04em; }
+.dash-card small { display: block; color: var(--positive); font-size: 10px; margin-top: 5px; }
+.dash-panel { background: var(--surface); border: 1px solid var(--line); border-radius: 17px; padding: 21px; margin-bottom: 16px; }
+.panel-title { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 15px; }
+.panel-title h3 { font-size: 14px; margin: 0; }
+.panel-title span { font-size: 10px; color: var(--text-muted); }
+.invite-row { display: flex; gap: 9px; }
+.invite-row input { min-width: 0; flex: 1; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-soft); color: var(--site-on-background); padding: 12px; font-size: 11px; }
+.ref-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.ref-table th { text-align: left; color: var(--text-muted); font-weight: 700; padding: 10px 7px; border-bottom: 1px solid var(--line); }
+.ref-table td { padding: 13px 7px; border-bottom: 1px solid var(--line); }
+.status { display: inline-block; padding: 5px 8px; border-radius: 20px; background: #E5F2D7; color: #356B39; font-size: 9px; font-weight: 800; }
+.status.pending { background: #F8EEDB; color: #94641E; }
+.demo-note { color: var(--text-muted); font-size: 10px; line-height: 1.6; margin-top: 12px; }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translate(-50%, 20px); opacity: 0; background: #17251F; color: white; border-radius: 12px; padding: 12px 18px; font-size: 12px; transition: .2s; pointer-events: none; z-index: 5; }
+.toast.show { opacity: 1; transform: translate(-50%,0); }
+.admin-panel { display: none; }
+.admin-panel.active { display: block; }
+.user-panel.hidden { display: none; }
+.auth-overlay { display:none; position:fixed; inset:0; z-index:20; background:rgba(10,30,24,.72); padding:20px; align-items:center; justify-content:center; }
+.auth-overlay.active { display:flex; }
+.auth-card { width:min(100%,420px); background:var(--surface); color:var(--site-on-background); border:1px solid var(--line); border-radius:20px; padding:26px; box-shadow:0 24px 80px rgba(0,0,0,.28); }
+.auth-card h2 { font-size:27px; margin:0 0 8px; }
+.auth-card p { color:var(--text-muted); font-size:12px; line-height:1.6; }
+.auth-card label { display:block; font-size:11px; font-weight:750; margin:13px 0 6px; }
+.auth-card input { width:100%; border:1px solid var(--line); border-radius:10px; background:var(--surface-soft); color:var(--site-on-background); padding:12px; }
+.auth-actions { display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; }
+.auth-message { min-height:18px; margin-top:12px; color:var(--positive); font-size:12px; }
+@media (max-width: 800px) {
+ .nav-links { display: none; }
+ .hero { padding: 54px 0 60px; }
+ .hero-grid { grid-template-columns: 1fr; gap: 38px; }
+ h1 { font-size: calc(45px * var(--site-heading-scale)); }
+ .mock-wrap { justify-content: flex-start; }
+ .phone { transform: none; }
+ .feature-grid { grid-template-columns: 1fr 1fr; }
+ .step-grid { grid-template-columns: 1fr 1fr; }
+ .dash-layout { grid-template-columns: 1fr; }
+ .sidebar { display: flex; overflow-x: auto; gap: 5px; }
+ .sidebar-label { display: none; }
+ .side-link { white-space: nowrap; }
+ .dash-cards { grid-template-columns: 1fr 1fr; }
+ .cta-panel { align-items: flex-start; flex-direction: column; }
+}
+@media (max-width: 520px) {
+ .container { width: min(100% - 28px, 1120px); }
+ .nav { min-height: 66px; }
+ .nav-actions .btn-outline { display: none; }
+ .feature-grid, .step-grid { grid-template-columns: 1fr; }
+ .stats { padding: 20px 0; }
+ .stat strong { font-size: 18px; }
+ .stat span { font-size: 9px; }
+ .section { padding: 55px 0; }
+ h2 { font-size: calc(30px * var(--site-heading-scale)); }
+ .cta-panel { padding: 27px; }
+ .dash-cards { grid-template-columns: 1fr 1fr; }
+ .dash-card strong { font-size: 19px; }
+ .invite-row { flex-direction: column; }
+ .ref-table { min-width: 480px; }
+ .table-scroll { overflow-x: auto; }
+ .dash-main h1 { font-size: 27px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="landing" id="landing">
+    <header class="topbar">
+      <div class="container nav">
+        <a class="brand" href="#home" aria-label="EarnBridge home"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h8M12 8l4 4-4 4"/><path d="M4 7h5a4 4 0 0 1 0 8H4M20 17h-5a4 4 0 0 1 0-8h5"/></svg></span>EarnBridge</a>
+        <nav class="nav-links"><a href="#how">How it works</a><a href="#features">Features</a><a href="#trust">Trust & safety</a></nav>
+        <div class="nav-actions"><button class="btn btn-outline" onclick="showDashboard()">Log in</button><button class="btn btn-primary" onclick="showDashboard()">Get started</button></div>
+      </div>
+    </header>
+    <main id="home">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow"><span class="dot"></span> A smarter way to grow together</div>
+            <h1>Good connections can open new doors.</h1>
+            <p class="hero-copy">EarnBridge helps members discover referral opportunities, share trusted recommendations and earn rewards when eligible referrals are confirmed.</p>
+            <div class="hero-buttons"><button class="btn btn-primary" onclick="showDashboard()">Explore your dashboard <span aria-hidden="true">→</span></button><a class="btn btn-outline" href="#how">See how it works</a></div>
+            <p class="trust-line">Free to explore · Clear reward rules · No guaranteed-income promises</p>
+          </div>
+          <div class="mock-wrap">
+            <div class="phone" aria-label="Illustrative EarnBridge mobile dashboard preview">
+              <div class="phone-top"><span>9:41</span><span class="phone-brand">EarnBridge</span><span>● ● ●</span></div>
+              <div class="balance-card"><small>Illustrative rewards balance</small><div class="balance">₦12,500.00</div><div class="balance-foot"><span>Available rewards</span><span>View activity ↗</span></div></div>
+              <div class="phone-label">Your invite link</div>
+              <div class="ref-box"><span>earnbridge.ng/join/EB7K2</span><strong>Copy</strong></div>
+              <div class="phone-label">Recent referral activity</div>
+              <div class="task-row"><span class="task-name"><span class="task-icon">↗</span>Referral confirmed</span><span class="task-reward">+₦500</span></div>
+              <div class="task-row"><span class="task-name"><span class="task-icon">◷</span>Verification pending</span><span>Pending</span></div>
+              <div class="task-row"><span class="task-name"><span class="task-icon">✓</span>Referral confirmed</span><span class="task-reward">+₦500</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="stats-strip"><div class="container stats"><div class="stat"><strong>₦ Rewards</strong><span>Designed for Nigerian members</span></div><div class="stat"><strong>One account</strong><span>Web and mobile experience</span></div><div class="stat"><strong>Clear rules</strong><span>Know what qualifies before sharing</span></div></div></section>
+      <section class="section" id="features">
+        <div class="container"><div class="section-head"><div class="kicker">Built around trust</div><h2>Everything you need to refer with confidence.</h2><p>A simple member experience, transparent reward tracking and controls that help protect the community.</p></div>
+          <div class="feature-grid">
+            <article class="feature"><div class="feature-icon">↗</div><h3>Your own referral link</h3><p>Get a unique invite link and share it with people who may genuinely benefit from the offer.</p></article>
+            <article class="feature"><div class="feature-icon">₦</div><h3>Transparent reward wallet</h3><p>See pending, approved and paid rewards separately, with a clear record of every transaction.</p></article>
+            <article class="feature"><div class="feature-icon">✓</div><h3>Verified referrals</h3><p>Rewards are approved only after the referral meets the published eligibility and verification rules.</p></article>
+            <article class="feature"><div class="feature-icon">⌁</div><h3>Simple sharing</h3><p>Share your link through the channels you already use, without spamming or misleading people.</p></article>
+            <article class="feature"><div class="feature-icon">▤</div><h3>Clear activity history</h3><p>Follow each referral from signup to verification and see why a reward is pending or declined.</p></article>
+            <article class="feature"><div class="feature-icon">♧</div><h3>Helpful support</h3><p>Find the reward terms, privacy information and support route whenever you need them.</p></article>
+          </div>
+        </div>
+      </section>
+      <section class="section steps" id="how">
+        <div class="container"><div class="section-head"><div class="kicker">How it works</div><h2>Four clear steps. No guesswork.</h2><p>EarnBridge rewards genuine referrals—not deposits, recruitment chains or promises of automatic income.</p></div>
+          <div class="step-grid">
+            <article class="step"><div class="step-num">STEP 01</div><h3>Create an account</h3><p>Register with accurate details and confirm your account.</p></article>
+            <article class="step"><div class="step-num">STEP 02</div><h3>Share your invite</h3><p>Send your personal link to friends who are interested in the offer.</p></article>
+            <article class="step"><div class="step-num">STEP 03</div><h3>Referral is verified</h3><p>The new member completes the published qualifying steps.</p></article>
+            <article class="step"><div class="step-num">STEP 04</div><h3>Reward is credited</h3><p>Approved rewards appear in your wallet, ready under the payout rules.</p></article>
+          </div>
+        </div>
+      </section>
+      <section class="section" id="trust"><div class="container"><div class="section-head"><div class="kicker">Trust & safety</div><h2>Built to reward real value.</h2><p>EarnBridge will publish clear terms, protect member data, review suspicious activity and show the status of every reward. There is no fee to join in this prototype, and no earnings are promised.</p></div></div></section>
+      <section class="cta"><div class="container"><div class="cta-panel"><div><h2>Build your network on a foundation of trust.</h2><p>Explore the member dashboard prototype and see how EarnBridge could work.</p></div><button class="btn btn-primary" onclick="showDashboard()">Open demo dashboard →</button></div></div></section>
+    </main>
+    <footer class="footer"><div class="container footer-inner"><span>© 2026 EarnBridge · Connect. Refer. Earn.</span><span>Prototype only — no real accounts, rewards or payments are processed.</span></div></footer>
+  </div>
+
+  <section class="dashboard" id="dashboard">
+    <header class="dash-nav"><div class="container dash-nav-inner"><a class="brand" href="#" onclick="showLanding();return false;"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h8M12 8l4 4-4 4"/><path d="M4 7h5a4 4 0 0 1 0 8H4M20 17h-5a4 4 0 0 1 0-8h5"/></svg></span>EarnBridge</a><button class="btn btn-primary" onclick="showLanding()">← Back to website</button></div></header>
+    <div class="container dash-layout">
+      <aside class="sidebar"><div class="sidebar-label">Workspace</div><div class="side-link active" onclick="switchPanel('member',this)">▦ Overview</div><div class="side-link" onclick="switchPanel('referrals',this)">↗ Referrals</div><div class="side-link" onclick="switchPanel('wallet',this)">₦ Wallet</div><div class="side-link" onclick="switchPanel('admin',this)">⚙ Admin preview</div></aside>
+      <main class="dash-main">
+        <div class="user-panel" id="memberPanel">
+          <h1>Welcome to EarnBridge</h1><p class="dash-sub">Here is a sample view of your referral activity. All figures below are illustrative.</p>
+          <div class="dash-cards"><div class="dash-card"><span>Available rewards</span><strong>₦2,500</strong><small>Demo balance</small></div><div class="dash-card"><span>Pending rewards</span><strong>₦1,000</strong><small>Awaiting verification</small></div><div class="dash-card"><span>Verified referrals</span><strong>5</strong><small>Sample account</small></div></div>
+          <section class="dash-panel"><div class="panel-title"><h3>Your referral link</h3><span>Share responsibly</span></div><div class="invite-row"><input id="inviteLink" value="https://earnbridge.example/join/EB7K2" readonly aria-label="Sample referral link"><button class="btn btn-dark" onclick="copyInvite()">Copy link</button></div><p class="demo-note">This is a placeholder link for the prototype. A live referral link will be generated after the backend is connected.</p></section>
+          <section class="dash-panel"><div class="panel-title"><h3>Recent referrals</h3><span>Sample activity</span></div><div class="table-scroll"><table class="ref-table"><thead><tr><th>Member</th><th>Date</th><th>Status</th><th>Reward</th></tr></thead><tbody><tr><td>Member #EB104</td><td>02 Nov 2026</td><td><span class="status">Verified</span></td><td>₦500</td></tr><tr><td>Member #EB103</td><td>01 Nov 2026</td><td><span class="status pending">Pending</span></td><td>₦500</td></tr><tr><td>Member #EB098</td><td>29 Oct 2026</td><td><span class="status">Verified</span></td><td>₦500</td></tr></tbody></table></div></section>
+        </div>
+        <div class="user-panel hidden" id="referralsPanel"><h1>Your referrals</h1><p class="dash-sub">Track invitations and see which referrals have qualified.</p><section class="dash-panel"><div class="panel-title"><h3>Referral summary</h3><span>Illustrative</span></div><div class="dash-cards"><div class="dash-card"><span>Total invited</span><strong>8</strong></div><div class="dash-card"><span>Verified</span><strong>5</strong></div><div class="dash-card"><span>In review</span><strong>3</strong></div></div><p class="demo-note">In the live platform, each status will include the reason and the next step, where applicable.</p></section></div>
+        <div class="user-panel hidden" id="walletPanel"><h1>Your wallet</h1><p class="dash-sub">A transparent view of approved, pending and paid rewards.</p><section class="dash-panel"><div class="dash-cards"><div class="dash-card"><span>Available</span><strong>₦2,500</strong></div><div class="dash-card"><span>Pending</span><strong>₦1,000</strong></div><div class="dash-card"><span>Paid out</span><strong>₦4,000</strong></div></div><button class="btn btn-dark" onclick="toast('Payout requests will be enabled after payment integration.')">Request withdrawal</button><p class="demo-note">Withdrawal is disabled in this prototype. Live payouts will require identity checks, a secure ledger, published minimums and payment-provider approval.</p></section></div>
+        <div class="admin-panel" id="adminPanel"><h1>Admin overview</h1><p class="dash-sub">A sample operations view for the EarnBridge team.</p><div class="dash-cards"><div class="dash-card"><span>Registered members</span><strong>1,284</strong><small>Illustrative count</small></div><div class="dash-card"><span>Referrals to review</span><strong>36</strong><small>Sample queue</small></div><div class="dash-card"><span>Payout requests</span><strong>12</strong><small>Sample queue</small></div></div><section class="dash-panel"><div class="panel-title"><h3>Admin controls to build</h3><span>Not connected</span></div><p class="demo-note">Manage member verification, referral eligibility, reward rates, suspicious activity, support cases, payout approvals, reconciliation and audit logs. Admin access will be protected by role-based permissions and multi-factor authentication.</p></section></div>
+      </main>
+    </div>
+  </section>
+  <div class="auth-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <section class="auth-card">
+      <div class="panel-title"><span class="kicker">EarnBridge account</span><button class="btn btn-light" type="button" onclick="closeAuth()">Close</button></div>
+      <h2 id="authTitle">Welcome back</h2><p id="authDescription">Log in to your EarnBridge account.</p>
+      <form id="authForm">
+        <div id="nameField" hidden><label for="authName">Full name</label><input id="authName" autocomplete="name"></div>
+        <label for="authEmail">Email address</label><input id="authEmail" type="email" autocomplete="email" required oninvalid="document.getElementById('authMessage').textContent='Please enter a valid email address.'">
+        <label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" minlength="8" required oninvalid="document.getElementById('authMessage').textContent='Please enter a password with at least 8 characters.'">
+        <div class="auth-actions"><button class="btn btn-dark" id="authSubmit" type="button" onclick="submitEarnBridgeAuth()">Log in</button><button class="btn btn-light" id="authToggle" type="button" onclick="toggleAuthMode()">Create account</button></div>
+        <div class="auth-message" id="authMessage" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://esumyvpvzcsifmslhbde.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_4UwmZWgymt93n9KyecVDjA_QnEOSsIO';
+let supabaseClient=window.supabase?.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY)||null;
+function ensureSupabaseClient(){if(supabaseClient)return Promise.resolve(supabaseClient);return new Promise((resolve,reject)=>{const script=document.createElement('script');const timeout=window.setTimeout(()=>reject(new Error('The account library is taking too long to load. The preview may be blocking the connection.')),12000);script.src='https://unpkg.com/@supabase/supabase-js@2';script.onload=()=>{window.clearTimeout(timeout);if(window.supabase?.createClient){supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);resolve(supabaseClient);}else{reject(new Error('The Supabase library loaded but could not start.'));}};script.onerror=()=>{window.clearTimeout(timeout);reject(new Error('The account service could not load. Check your internet connection or preview restrictions.'));};document.head.appendChild(script);});}
+let authMode='login';
+function showDashboard(){openAuth('login');if(!supabaseClient){document.getElementById('authMessage').textContent='Account service is not connected in this preview. You can view the account form, but registration and login are not available yet.';}}
+function openAuth(mode){authMode=mode;document.getElementById('authOverlay').classList.add('active');renderAuthMode();}
+function closeAuth(){document.getElementById('authOverlay').classList.remove('active');}
+function toggleAuthMode(){authMode=authMode==='login'?'signup':'login';renderAuthMode();}
+function renderAuthMode(){const signup=authMode==='signup';document.getElementById('authTitle').textContent=signup?'Create your account':'Welcome back';document.getElementById('authDescription').textContent=signup?'Register free to start using EarnBridge.':'Log in to your EarnBridge account.';document.getElementById('nameField').hidden=!signup;document.getElementById('authName').required=signup;document.getElementById('authPassword').autocomplete=signup?'new-password':'current-password';document.getElementById('authSubmit').textContent=signup?'Create account':'Log in';document.getElementById('authToggle').textContent=signup?'I already have an account':'Create account';document.getElementById('authMessage').textContent='';}
+async function submitEarnBridgeAuth(){const form=document.getElementById('authForm');const message=document.getElementById('authMessage');const submit=document.getElementById('authSubmit');message.textContent='';if(!form.reportValidity())return;submit.disabled=true;submit.textContent='Connecting…';message.textContent='Step 1: Button handler started. Preparing request…';const email=document.getElementById('authEmail').value.trim();const password=document.getElementById('authPassword').value;const signup=authMode==='signup';const name=document.getElementById('authName').value.trim();if(signup&&!name){message.textContent='Please enter your full name.';submit.disabled=false;submit.textContent='Create account';return;}const endpoint=signup?'/auth/v1/signup':'/auth/v1/token?grant_type=password';const body=signup?{email,password,data:{full_name:name}}:{email,password};message.textContent='Step 2: Sending request to Supabase…';try{const response=await Promise.race([fetch(SUPABASE_URL+endpoint,{method:'POST',mode:'cors',headers:{'Content-Type':'application/json','apikey':SUPABASE_PUBLISHABLE_KEY},body:JSON.stringify(body)}),new Promise((_,reject)=>window.setTimeout(()=>reject(new Error('Timed out after 20 seconds. The preview may be blocking the connection.')),20000))]);let data={};try{data=await response.json();}catch(parseError){}submit.disabled=false;submit.textContent=signup?'Create account':'Log in';if(!response.ok){message.textContent='Supabase error ('+response.status+'): '+(data.msg||data.message||data.error_description||data.error||'Request rejected.');return;}if(signup&&!data.access_token){message.textContent='Account request accepted. Check your email inbox and spam folder for a confirmation link.';return;}if(!signup&&!data.access_token){message.textContent='Supabase replied but did not return a login session.';return;}message.textContent='Account connected. Opening your dashboard…';closeAuth();document.getElementById('landing').classList.add('hidden');document.getElementById('dashboard').classList.add('active');document.querySelector('.dash-main h1').textContent='Welcome to EarnBridge';document.querySelector('.dash-sub').textContent='Your account is connected. Referral and wallet data will appear as those features are completed.';window.scrollTo(0,0);}catch(error){submit.disabled=false;submit.textContent=signup?'Create account':'Log in';message.textContent='Request failed: '+(error?.message||'Could not reach Supabase.');}}
+supabaseClient?.auth.getSession().then(({data})=>{if(data.session){document.getElementById('landing').classList.add('hidden');document.getElementById('dashboard').classList.add('active');}});
+function showLanding(){document.getElementById('dashboard').classList.remove('active');document.getElementById('landing').classList.remove('hidden');window.scrollTo(0,0);}
+function switchPanel(name,el){document.querySelectorAll('.side-link').forEach(x=>x.classList.remove('active'));el.classList.add('active');document.getElementById('memberPanel').classList.toggle('hidden',name!=='member');document.getElementById('referralsPanel').classList.toggle('hidden',name!=='referrals');document.getElementById('walletPanel').classList.toggle('hidden',name!=='wallet');document.getElementById('adminPanel').classList.toggle('active',name==='admin');}
+function toast(message){const el=document.getElementById('toast');el.textContent=message;el.classList.add('show');window.setTimeout(()=>el.classList.remove('show'),2400);}
+function copyInvite(){const input=document.getElementById('inviteLink');input.focus();input.select();try{document.execCommand('copy');toast('Demo referral link copied.');}catch(e){toast('Select and copy the demo link.');}}
+</script>
+</body>
+</html>
